@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <meta name="viewport" content = "height = device-height, width = 420, user-scalable = no" />
+     <title>WebIOPi | GPIO Header</title>
+            <style>
+                    button{
+                            margin:2px;
+                    }
+
+                    img{
+                            border-bottom: 3px solid black;
+                    }
+
+                    #wrapper{
+                            text-align:center;
+                            margin: 0 auto;
+                            width: 352px;
+                            background-color:lightgray;
+                            border: 3px solid black;
+                    }
+            </style>
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+                   window.setInterval("refreshCamera();", 100);
+                });
+
+                var url = window.location.protocol + "//" + window.location.host + ':8081';
+
+                function refreshCamera()
+                {
+                   forcerefresh = forcerefresh + 1;
+                   $('#CameraIMG').attr('src',url);
+                }
+            </script>
+
+         <script type="text/javascript" src="/webiopi.js"></script>
+         <script type="text/javascript">
+                 webiopi().ready(function() {
+                 var w_content,content, forward, left, back, right;
+                        content = $("#content");
+                        w_content = $("#w-content");
+
+                        // OUT setzen
+                        webiopi().setFunction(0,"OUT");
+                        webiopi().setFunction(1,"OUT");
+                        webiopi().setFunction(4,"OUT");
+                        webiopi().setFunction(22,"OUT");
+
+                        // HIGH setzen, damit das RC-Auto nicht direkt nach vorne fährt
+                        webiopi().digitalWrite(0, 1);
+                        webiopi().digitalWrite(1, 1);
+                        webiopi().digitalWrite(4, 1);
+                        webiopi().digitalWrite(22, 1);
+
+                     // create a "SWITCH" labeled button for GPIO 0
+                            forward = webiopi().createButton("hold", "W", forward_mousedown, forward_mouseup);
+                            w_content.append(forward);
+
+                            left = webiopi().createButton("hold", "A", left_mousedown, left_mouseup);
+                            content.append(left);
+
+                            back = webiopi().createButton("hold", "S", back_mousedown, back_mouseup);
+                            content.append(back);
+
+                            right = webiopi().createButton("hold", "D", right_mousedown, right_mouseup);
+                            content.append(right);
+
+                     w().refreshGPIO(true);
+                     });
+
+                        function forward_mousedown() { webiopi().digitalWrite(0, 0); }
+                        function forward_mouseup() { webiopi().digitalWrite(0, 1); }	
+
+                        function back_mousedown() { webiopi().digitalWrite(1, 0); }
+                        function back_mouseup() { webiopi().digitalWrite(1, 1); }
+
+                        function left_mousedown() { webiopi().digitalWrite(4, 0); }
+                        function left_mouseup() { webiopi().digitalWrite(4, 1); }
+
+                        function right_mousedown() { webiopi().digitalWrite(22, 0); }
+                        function right_mouseup() { webiopi().digitalWrite(22, 1); }
+         </script>
+    </head>
+
+    <body>
+            <div id="wrapper">
+                    <img src="<?php echo 'http://'.$_SERVER['SERVER_NAME'].':8081'; ?>" id="CameraIMG" />
+
+                    <div id="content"/>
+                    <div id="w-content"/>
+            </div>
+    </body>
+</html>
