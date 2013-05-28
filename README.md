@@ -8,3 +8,5 @@ RaspCar is an RC-Car - controlled with an Raspberry Pi from the web. It has two 
 Raspcar will need following Components to work:
 - http://code.google.com/p/webiopi/
 - some kind of webcam daemon, to access the webcam straight from the web (I'm using "motion")
+
+<h2>The original Project was started here: http://www.forum-raspberrypi.de/Thread-projekt-raspcar (german)</h2>
